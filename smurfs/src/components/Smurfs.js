@@ -1,13 +1,30 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { getSmurfs } from "../actionCreator/index";
+import { getSmurfs, addNewSmurf } from "../actionCreator/index";
 
 function Smurfs(props) {
-  console.log("and this the props", props.smurfs);
+  console.log(props);
+  const initialSmurf = {
+    name: "",
+    age: "",
+    height: "",
+    id: Date.now()
+  };
+  const [newSmurf, setNewSmurf] = useState(initialSmurf);
 
   const fetchSmurf = e => {
     e.preventDefault();
     props.getSmurfs();
+  };
+
+  const handleChange = e => {
+    setNewSmurf({ ...newSmurf, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    props.addNewSmurf(newSmurf);
+    setNewSmurf(initialSmurf);
   };
 
   return (
@@ -27,6 +44,27 @@ function Smurfs(props) {
       </div>
       {props.error && <p>{props.error}</p>}
       <button onClick={fetchSmurf}>Get Smurfs</button>
+      <form onSubmit={handleSubmit}>
+        <input
+          name="name"
+          type="text"
+          value={newSmurf.name}
+          onChange={handleChange}
+        />
+        <input
+          name="age"
+          type="number"
+          value={newSmurf.age}
+          onChange={handleChange}
+        />
+        <input
+          name="height"
+          type="number"
+          value={newSmurf.height}
+          onChange={handleChange}
+        />
+        <button type="submit">submit</button>
+      </form>
     </div>
   );
 }
@@ -39,7 +77,8 @@ const mapStateToProps = store => {
 };
 
 const mapDispatchToProps = {
-  getSmurfs
+  getSmurfs,
+  addNewSmurf
 };
 
 export default connect(
