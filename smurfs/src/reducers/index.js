@@ -2,7 +2,7 @@ import {
   FETCH_DATA_START,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_FAILURE,
-  ADD_NEW_SMURF
+  ADD_NEW_SMURF,
 } from "../actionCreator/index";
 
 const initialState = {
@@ -34,7 +34,7 @@ export const reducer = (state = initialState, action) => {
     case ADD_NEW_SMURF:
       return {
         ...state,
-        smurfs: [...state.smurfs, action.payload],
+        smurfs: [...state.smurfs, action.payload]
       };
     default:
       return state;

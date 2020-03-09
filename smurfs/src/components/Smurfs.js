@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { getSmurfs, addNewSmurf } from "../actionCreator/index";
+import { getSmurfs, addNewSmurf, deleteSmurf } from "../actionCreator/index";
 
 function Smurfs(props) {
   console.log(props);
@@ -21,6 +21,10 @@ function Smurfs(props) {
     setNewSmurf({ ...newSmurf, [e.target.name]: e.target.value });
   };
 
+  const removeSmurf = smurfId => {
+    props.deleteSmurf(smurfId);
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
     props.addNewSmurf(newSmurf);
@@ -39,6 +43,7 @@ function Smurfs(props) {
               My age is {smurf.age}.<br />
               My height is {smurf.height}.{" "}
             </p>
+            <button onClick={() => removeSmurf(smurf.id)}>delete</button>
           </div>
         ))}
       </div>
@@ -78,7 +83,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = {
   getSmurfs,
-  addNewSmurf
+  addNewSmurf,
+  deleteSmurf
 };
 
 export default connect(
